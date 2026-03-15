@@ -135,7 +135,7 @@ serve(async (req) => {
 
   try {
     const { question, langue } = await req.json();
-    const lang = langue || "fr";
+    const lang: Lang = langue || detectLanguage(question || "");
 
     // 1. Try keyword match first
     const key = matchKeyword(question || "");
