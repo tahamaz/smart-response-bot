@@ -88,6 +88,17 @@ const reponses: Record<string, Record<string, string>> = {
   },
 };
 
+function detectLanguage(text: string): Lang {
+  const arabicRegex = /[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF]/;
+  const frenchIndicators = /[àâäéèêëïîôùûüÿçœæ]|(\b(je|tu|il|nous|vous|ils|les|des|une|est|sont|dans|pour|avec|que|qui|sur|pas|plus|cette|tout)\b)/i;
+  
+  if (arabicRegex.test(text)) return "ar";
+  if (frenchIndicators.test(text)) return "fr";
+  return "en";
+}
+
+type Lang = "fr" | "en" | "ar";
+
 function matchKeyword(question: string): string | null {
   const q = question.toLowerCase().trim();
 
@@ -124,7 +135,7 @@ serve(async (req) => {
 
   try {
     const { question, langue } = await req.json();
-    const lang = langue || "fr";
+    const lang: Lang = langue || detectLanguage(question || "");
 
     // 1. Try keyword match first
     const key = matchKeyword(question || "");

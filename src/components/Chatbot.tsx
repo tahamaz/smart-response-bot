@@ -121,10 +121,15 @@ export default function Chatbot() {
 
       try {
         const { data, error } = await supabase.functions.invoke("chat", {
-          body: { question: text.trim(), langue: lang },
+          body: { question: text.trim() },
         });
 
         if (error) throw error;
+
+        // Auto-update UI language based on detected language
+        if (data.langue && data.langue !== lang) {
+          setLang(data.langue as Lang);
+        }
 
         const botTime = new Date().toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit", hour12: false });
         setTimeout(() => {
