@@ -123,7 +123,7 @@ export default function Chatbot() {
               )}
               <div className="message-wrapper">
                 <div className="message-bubble" style={{ whiteSpace: "pre-wrap", direction: msg.isRtl ? "rtl" : "ltr", textAlign: msg.isRtl ? "right" : "left" }}>
-                  {msg.text}
+                  {msg.text.replace(/\*\*/g, "")}
                 </div>
                 <div className="message-time">
                   <i className="far fa-clock"></i> {msg.time}
