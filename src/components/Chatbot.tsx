@@ -67,7 +67,8 @@ export default function Chatbot() {
         const botTime = new Date().toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit", hour12: false });
         setTimeout(() => {
           setIsTyping(false);
-          setMessages((prev) => [...prev, { text: data.reponse, isUser: false, time: botTime }]);
+          const responseText = data.reponse;
+          setMessages((prev) => [...prev, { text: responseText, isUser: false, time: botTime, isRtl: isArabic(responseText) }]);
         }, 600);
       } catch {
         setIsTyping(false);
