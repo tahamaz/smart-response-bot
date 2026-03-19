@@ -6,24 +6,13 @@ interface Message {
   text: string;
   isUser: boolean;
   time: string;
+  isRtl?: boolean;
 }
 
 const welcomeMessage =
   "👋 Hello! I am the virtual assistant of the Computer Science Department - University of Batna 2. How can I help you?";
 
-const suggestionsData = [
-  { icon: "📞", text: "Contact", keyword: "contact" },
-  { icon: "🎓", text: "Master", keyword: "master" },
-  { icon: "📚", text: "Licence 3", keyword: "licence" },
-  { icon: "🔒", text: "Master SI", keyword: "master si" },
-  { icon: "🤖", text: "Master IAM", keyword: "master iam" },
-  { icon: "🌐", text: "Master RSD", keyword: "master rsd" },
-  { icon: "🔐", text: "Master ISIDS", keyword: "master isids" },
-  { icon: "💻", text: "Master DTI", keyword: "master dti" },
-  { icon: "⚙️", text: "Engineering", keyword: "engineering" },
-  { icon: "📅", text: "Schedule", keyword: "schedule" },
-  { icon: "📝", text: "Thesis", keyword: "thesis" },
-];
+const isArabic = (text: string) => /[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF]/.test(text);
 
 export default function Chatbot() {
   const [messages, setMessages] = useState<Message[]>([]);
@@ -64,7 +53,7 @@ export default function Chatbot() {
     async (text: string) => {
       if (!text.trim() || isTyping) return;
       const time = new Date().toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit", hour12: false });
-      setMessages((prev) => [...prev, { text: text.trim(), isUser: true, time }]);
+      setMessages((prev) => [...prev, { text: text.trim(), isUser: true, time, isRtl: isArabic(text) }]);
       setInput("");
       setIsTyping(true);
 
@@ -78,7 +67,8 @@ export default function Chatbot() {
         const botTime = new Date().toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit", hour12: false });
         setTimeout(() => {
           setIsTyping(false);
-          setMessages((prev) => [...prev, { text: data.reponse, isUser: false, time: botTime }]);
+          const responseText = data.reponse;
+          setMessages((prev) => [...prev, { text: responseText, isUser: false, time: botTime, isRtl: isArabic(responseText) }]);
         }, 600);
       } catch {
         setIsTyping(false);
@@ -132,7 +122,7 @@ export default function Chatbot() {
                 </div>
               )}
               <div className="message-wrapper">
-                <div className="message-bubble" style={{ whiteSpace: "pre-wrap" }}>
+                <div className="message-bubble" style={{ whiteSpace: "pre-wrap", direction: msg.isRtl ? "rtl" : "ltr", textAlign: msg.isRtl ? "right" : "left" }}>
                   {msg.text}
                 </div>
                 <div className="message-time">
@@ -158,26 +148,6 @@ export default function Chatbot() {
               </div>
             </div>
           )}
-        </div>
-
-        <div className="suggestions-section">
-          <div className="suggestions-title">
-            <i className="fas fa-bolt"></i> <span>Frequent questions</span>
-          </div>
-          <div className="suggestions-grid">
-            {suggestionsData.map((s, i) => (
-              <div
-                key={i}
-                className="suggestion-item"
-                onClick={() => {
-                  setInput(s.keyword);
-                  sendMessage(s.keyword);
-                }}
-              >
-                {s.icon} {s.text}
-              </div>
-            ))}
-          </div>
         </div>
 
         <div className="chat-input-section">
