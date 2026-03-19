@@ -490,50 +490,6 @@
 .chatbot-page.dark-mode .chat-messages::-webkit-scrollbar-thumb { background: #4b5563; }
 .chatbot-page.dark-mode .chat-messages::-webkit-scrollbar-thumb:hover { background: #6b7280; }
 
-/* RTL */
-.chatbot-page.rtl .brand {
-  flex-direction: row-reverse;
-}
-
-.chatbot-page.rtl .language-selector {
-  flex-direction: row-reverse;
-}
-
-.chatbot-page.rtl .message.user .message-bubble {
-  border-bottom-right-radius: 24px;
-  border-bottom-left-radius: 4px;
-}
-
-.chatbot-page.rtl .message.bot .message-bubble {
-  border-bottom-left-radius: 24px;
-  border-bottom-right-radius: 4px;
-  text-align: right;
-}
-
-.chatbot-page.rtl .message-bubble {
-  text-align: right !important;
-  direction: rtl !important;
-}
-
-.chatbot-page.rtl .suggestion-item {
-  flex-direction: row-reverse;
-}
-
-.chatbot-page.rtl .input-container input {
-  text-align: right;
-}
-
-.chatbot-page.rtl .input-container {
-  padding: 5px 22px 5px 5px;
-}
-
-.chatbot-page.rtl .message.user .message-time {
-  justify-content: flex-start;
-}
-
-.chatbot-page.rtl .message.bot .message-time {
-  justify-content: flex-start;
-}
 
 /* Responsive */
 @media (max-width: 700px) {
