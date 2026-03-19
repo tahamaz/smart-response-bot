@@ -122,7 +122,7 @@ export default function Chatbot() {
                 </div>
               )}
               <div className="message-wrapper">
-                <div className="message-bubble" style={{ whiteSpace: "pre-wrap" }}>
+                <div className="message-bubble" style={{ whiteSpace: "pre-wrap", direction: msg.isRtl ? "rtl" : "ltr", textAlign: msg.isRtl ? "right" : "left" }}>
                   {msg.text}
                 </div>
                 <div className="message-time">
