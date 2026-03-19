@@ -150,26 +150,6 @@ export default function Chatbot() {
           )}
         </div>
 
-        <div className="suggestions-section">
-          <div className="suggestions-title">
-            <i className="fas fa-bolt"></i> <span>Frequent questions</span>
-          </div>
-          <div className="suggestions-grid">
-            {suggestionsData.map((s, i) => (
-              <div
-                key={i}
-                className="suggestion-item"
-                onClick={() => {
-                  setInput(s.keyword);
-                  sendMessage(s.keyword);
-                }}
-              >
-                {s.icon} {s.text}
-              </div>
-            ))}
-          </div>
-        </div>
-
         <div className="chat-input-section">
           <div className="input-container">
             <input
