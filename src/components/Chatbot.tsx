@@ -53,7 +53,7 @@ export default function Chatbot() {
     async (text: string) => {
       if (!text.trim() || isTyping) return;
       const time = new Date().toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit", hour12: false });
-      setMessages((prev) => [...prev, { text: text.trim(), isUser: true, time }]);
+      setMessages((prev) => [...prev, { text: text.trim(), isUser: true, time, isRtl: isArabic(text) }]);
       setInput("");
       setIsTyping(true);
 
