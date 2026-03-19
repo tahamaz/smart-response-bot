@@ -12,19 +12,7 @@ interface Message {
 const welcomeMessage =
   "👋 Hello! I am the virtual assistant of the Computer Science Department - University of Batna 2. How can I help you?";
 
-const suggestionsData = [
-  { icon: "📞", text: "Contact", keyword: "contact" },
-  { icon: "🎓", text: "Master", keyword: "master" },
-  { icon: "📚", text: "Licence 3", keyword: "licence" },
-  { icon: "🔒", text: "Master SI", keyword: "master si" },
-  { icon: "🤖", text: "Master IAM", keyword: "master iam" },
-  { icon: "🌐", text: "Master RSD", keyword: "master rsd" },
-  { icon: "🔐", text: "Master ISIDS", keyword: "master isids" },
-  { icon: "💻", text: "Master DTI", keyword: "master dti" },
-  { icon: "⚙️", text: "Engineering", keyword: "engineering" },
-  { icon: "📅", text: "Schedule", keyword: "schedule" },
-  { icon: "📝", text: "Thesis", keyword: "thesis" },
-];
+const isArabic = (text: string) => /[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF]/.test(text);
 
 export default function Chatbot() {
   const [messages, setMessages] = useState<Message[]>([]);
