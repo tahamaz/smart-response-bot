@@ -5,6 +5,17 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
 };
 
+type Lang = "fr" | "en" | "ar";
+
+function detectLanguage(text: string): Lang {
+  const arabicRegex = /[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF]/;
+  const frenchIndicators = /[àâäéèêëïîôùûüÿçœæ]|(\b(je|tu|il|nous|vous|ils|les|des|une|est|sont|dans|pour|avec|que|qui|sur|pas|plus|cette|tout)\b)/i;
+  
+  if (arabicRegex.test(text)) return "ar";
+  if (frenchIndicators.test(text)) return "fr";
+  return "en";
+}
+
 const reponses: Record<string, Record<string, string>> = {
   bonjour: {
     fr: "👋 Bonjour ! Je suis le chatbot officiel du Département d'Informatique - Université Batna 2. Comment puis-je vous aider ?",
@@ -42,9 +53,9 @@ const reponses: Record<string, Record<string, string>> = {
     ar: "🎓 **ماستر - 5 تخصصات**\n\n1️⃣ **أمن الحاسوب**\n2️⃣ **الذكاء الاصطناعي والوسائط المتعددة**\n3️⃣ **الشبكات والأنظمة الموزعة**\n4️⃣ **هندسة نظم المعلومات الموزعة والأمن**\n5️⃣ **التحول الرقمي والابتكار** → **عن بعد**\n\nاكتب اسم التخصص للمزيد من التفاصيل!",
   },
   si_master: {
-    fr: "🔒 **Master SI - Sécurité Informatique**\n\n📚 **Modules** :\n• Cryptographie avancée\n• Sécurité informatique\n• Image et sécurité\n• EDI et commerce électronique\n• Sûreté de fonctionnement\n• Méthodologie de recherche\n\n👨‍💼 **Débouchés** : Expert en cybersécurité, Analyste SOC, Pentester",
-    en: "🔒 **Master CS - Computer Security**\n\n📚 **Modules**:\n• Advanced Cryptography\n• Computer Security\n• Image and Security\n• EDI and E-commerce\n• System Dependability\n• Research Methodology\n\n👨‍💼 **Careers**: Cybersecurity Expert, SOC Analyst, Pentester",
-    ar: "🔒 **ماستر أمن الحاسوب**\n\n📚 **الوحدات**:\n• التشفير المتقدم\n• أمن الحاسوب\n• الصورة والأمن\n• التبادل الإلكتروني والتجارة الإلكترونية\n• سلامة الأنظمة\n• منهجية البحث\n\n👨‍💼 **آفاق العمل**: خبير أمن سيبراني، محلل SOC، مختبر اختراق",
+    fr: "🔒 **Master SI - Sécurité Informatique**\n\n📚 **Semestre 1 (S1)** :\n• Advanced Database = Dr. YASMINE MEDJADBA\n• La Complexité Algorithmique\n• Outils Mathématiques pour la Cryptographie\n• Ethical Hacking and Systems Defense = MEBARKI YOUCEF\n• Delivering Secure Software through Continuous Delivery\n• AI, Informations Publiques, Cybercriminalité\n\n📚 **Semestre 2 (S2)** :\n• Cryptographie\n• Cybercriminalité & Réseaux = DEKHINET Abdelhamid\n• Criminalistique\n• BD Forensique, Multimédia & Sécurité = DJEBAILI KARIMA\n• Gestion de Projets = OUSSAMA BOULDJEDRI\n• Gouvernance & Digital\n• Internet of Things\n\n👨‍💼 **Débouchés** : Expert en cybersécurité, Analyste SOC, Pentester",
+    en: "🔒 **Master CS - Computer Security**\n\n📚 **Semester 1 (S1)**:\n• Advanced Database = Dr. YASMINE MEDJADBA\n• Algorithmic Complexity\n• Mathematical Tools for Cryptography\n• Ethical Hacking and Systems Defense = MEBARKI YOUCEF\n• Delivering Secure Software through Continuous Delivery\n• AI, Public Information, Cybercrime\n\n📚 **Semester 2 (S2)**:\n• Cryptography\n• Cybercrime & Networks = DEKHINET Abdelhamid\n• Forensics\n• Forensic DB, Multimedia & Security = DJEBAILI KARIMA\n• Project Management = OUSSAMA BOULDJEDRI\n• Governance & Digital\n• Internet of Things\n\n👨‍💼 **Careers**: Cybersecurity Expert, SOC Analyst, Pentester",
+    ar: "🔒 **ماستر أمن الحاسوب**\n\n📚 **السداسي الأول (S1)**:\n• قواعد البيانات المتقدمة = د. ياسمين مجدبة\n• التعقيد الخوارزمي\n• أدوات رياضية للتشفير\n• القرصنة الأخلاقية والدفاع عن الأنظمة = مباركي يوسف\n• تقديم برمجيات آمنة عبر التسليم المستمر\n• الذكاء الاصطناعي، المعلومات العامة، الجرائم الإلكترونية\n\n📚 **السداسي الثاني (S2)**:\n• التشفير\n• الجرائم الإلكترونية والشبكات = دخينات عبد الحميد\n• الطب الشرعي الرقمي\n• قواعد البيانات الجنائية والوسائط المتعددة والأمن = جبايلي كريمة\n• إدارة المشاريع = أسامة بولجدري\n• الحوكمة والرقمنة\n• إنترنت الأشياء\n\n👨‍💼 **آفاق العمل**: خبير أمن سيبراني، محلل SOC، مختبر اختراق",
   },
   iam: {
     fr: "🤖 **Master IAM - Intelligence Artificielle et Multimédia**\n\n📚 **Modules** :\n• Conception d'application multimédia\n• Recherche d'information multimédia\n• Programmation GPU\n• Reconnaissance de formes\n• Ontologies\n\n👨‍💼 **Débouchés** : Data Scientist, Ingénieur IA, NLP Developer",
@@ -88,17 +99,6 @@ const reponses: Record<string, Record<string, string>> = {
   },
 };
 
-function detectLanguage(text: string): Lang {
-  const arabicRegex = /[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF]/;
-  const frenchIndicators = /[àâäéèêëïîôùûüÿçœæ]|(\b(je|tu|il|nous|vous|ils|les|des|une|est|sont|dans|pour|avec|que|qui|sur|pas|plus|cette|tout)\b)/i;
-  
-  if (arabicRegex.test(text)) return "ar";
-  if (frenchIndicators.test(text)) return "fr";
-  return "en";
-}
-
-type Lang = "fr" | "en" | "ar";
-
 function matchKeyword(question: string): string | null {
   const q = question.toLowerCase().trim();
 
@@ -134,8 +134,8 @@ serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
   try {
-    const { question, langue } = await req.json();
-    const lang: Lang = langue || detectLanguage(question || "");
+    const { question } = await req.json();
+    const lang: Lang = detectLanguage(question || "");
 
     // 1. Try keyword match first
     const key = matchKeyword(question || "");
@@ -154,13 +154,18 @@ serve(async (req) => {
     }
 
     const systemPrompt = `You are the official virtual assistant of the Computer Science Department at University of Batna 2, Algeria.
-You MUST respond ONLY in ${langNames[lang] || "French"} language.
+You MUST respond in the SAME LANGUAGE the user writes in. Detect the language automatically.
 You are an expert in computer science, education, university admissions, academic research, programming, algorithms, artificial intelligence, cybersecurity, networks, databases, and all IT-related topics.
 You can answer ANY question intelligently - whether it's about the department, computer science concepts, programming help, math, science, general knowledge, or any other topic.
 Be helpful, accurate, professional, and thorough. Use clear formatting with bullet points and emojis when appropriate.
 For department-specific questions you don't know, suggest contacting the secretariat at +213 33 23 02 66 or email chef-dept.inf@univ-batna2.dz.
-For general knowledge questions, provide the best possible answer based on your training data.`;
+For general knowledge questions, provide the best possible answer based on your training data.
 
+Here is important department data you should know about:
+
+MASTER SI (Computer Security) program details:
+S1 modules: Advanced Database (Dr. YASMINE MEDJADBA), Algorithmic Complexity, Mathematical Tools for Cryptography, Ethical Hacking and Systems Defense (MEBARKI YOUCEF), Delivering Secure Software through Continuous Delivery, AI/Public Information/Cybercrime
+S2 modules: Cryptography, Cybercrime & Networks (DEKHINET Abdelhamid), Forensics, Forensic DB/Multimedia & Security (DJEBAILI KARIMA), Project Management (OUSSAMA BOULDJEDRI), Governance & Digital, Internet of Things`;
 
     const aiResponse = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",
