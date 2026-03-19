@@ -6,6 +6,7 @@ interface Message {
   text: string;
   isUser: boolean;
   time: string;
+  isRtl?: boolean;
 }
 
 const welcomeMessage =
