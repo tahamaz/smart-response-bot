@@ -164,15 +164,7 @@ export default function Chatbot() {
               )}
               <div className="message-wrapper">
                 <div className="message-bubble" style={{ whiteSpace: "pre-wrap", direction: msg.isRtl ? "rtl" : "ltr", textAlign: msg.isRtl ? "right" : "left" }}>
-                  {msg.text
-                    .replace(/\*\*/g, "")
-                    .replace(/\*/g, "")
-                    .replace(/^#{1,6}\s+/gm, "")
-                    .replace(/^[-•]\s+/gm, "• ")
-                    .replace(/`{1,3}/g, "")
-                    .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
-                    .replace(/^\s*\n/gm, "\n")
-                  }
+                  {cleanAndRender(msg.text)}
                 </div>
                 <div className="message-time">
                   <i className="far fa-clock"></i> {msg.time}
