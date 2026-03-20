@@ -14,6 +14,47 @@ const welcomeMessage =
 
 const isArabic = (text: string) => /[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF]/.test(text);
 
+const cleanAndRender = (text: string) => {
+  // Clean markdown syntax
+  let cleaned = text
+    .replace(/\*\*/g, "")
+    .replace(/\*/g, "")
+    .replace(/^#{1,6}\s+/gm, "")
+    .replace(/^[-•]\s+/gm, "• ")
+    .replace(/`{1,3}/g, "")
+    .replace(/^\s*\n/gm, "\n");
+
+  // Extract markdown links [text](url) and raw URLs
+  const parts: (string | { label: string; url: string })[] = [];
+  const linkRegex = /\[([^\]]+)\]\((https?:\/\/[^)]+)\)|(https?:\/\/[^\s)<]+)/g;
+  let lastIndex = 0;
+  let match;
+
+  while ((match = linkRegex.exec(cleaned)) !== null) {
+    if (match.index > lastIndex) {
+      parts.push(cleaned.slice(lastIndex, match.index));
+    }
+    parts.push({
+      label: match[1] || match[3],
+      url: match[2] || match[3],
+    });
+    lastIndex = match.index + match[0].length;
+  }
+  if (lastIndex < cleaned.length) {
+    parts.push(cleaned.slice(lastIndex));
+  }
+
+  return parts.map((part, i) =>
+    typeof part === "string" ? (
+      <span key={i}>{part}</span>
+    ) : (
+      <a key={i} href={part.url} target="_blank" rel="noopener noreferrer" style={{ color: "#1a73e8", textDecoration: "underline", wordBreak: "break-all" }}>
+        {part.label}
+      </a>
+    )
+  );
+};
+
 export default function Chatbot() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
@@ -123,15 +164,7 @@ export default function Chatbot() {
               )}
               <div className="message-wrapper">
                 <div className="message-bubble" style={{ whiteSpace: "pre-wrap", direction: msg.isRtl ? "rtl" : "ltr", textAlign: msg.isRtl ? "right" : "left" }}>
-                  {msg.text
-                    .replace(/\*\*/g, "")
-                    .replace(/\*/g, "")
-                    .replace(/^#{1,6}\s+/gm, "")
-                    .replace(/^[-•]\s+/gm, "• ")
-                    .replace(/`{1,3}/g, "")
-                    .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
-                    .replace(/^\s*\n/gm, "\n")
-                  }
+                  {cleanAndRender(msg.text)}
                 </div>
                 <div className="message-time">
                   <i className="far fa-clock"></i> {msg.time}
