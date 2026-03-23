@@ -190,7 +190,7 @@ S2 modules: Cryptography, Cybercrime & Networks (DEKHINET Abdelhamid), Forensics
           en: "⏳ The service is momentarily overloaded. Please try again shortly.",
           ar: "⏳ الخدمة مشغولة حاليًا. يرجى المحاولة مرة أخرى بعد قليل.",
         };
-        return new Response(JSON.stringify({ reponse: fallback[lang] || fallback.fr, langue: lang, source: "error" }), {
+        return new Response(JSON.stringify({ reponse: fallback[lang] || fallback.fr, langue: lang }), {
           status: 200,
           headers: { ...corsHeaders, "Content-Type": "application/json" },
         });
