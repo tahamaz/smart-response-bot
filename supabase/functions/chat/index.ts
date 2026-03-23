@@ -18,9 +18,9 @@ function detectLanguage(text: string): Lang {
 
 const reponses: Record<string, Record<string, string>> = {
   bonjour: {
-    fr: "👋 Bonjour ! Je suis le chatbot officiel du Département d'Informatique - Université Batna 2. Comment puis-je vous aider ?",
-    en: "👋 Hello! I am the official chatbot of the Computer Science Department - University of Batna 2. How can I help you?",
-    ar: "👋 مرحبًا! أنا المساعد الرسمي لقسم الإعلام الآلي - جامعة باتنة 2. كيف يمكنني مساعدتك؟",
+    fr: "👋 Bonjour ! Bienvenue au Département d'Informatique - Université Batna 2. Comment puis-je vous aider ?",
+    en: "👋 Hello! Welcome to the Computer Science Department - University of Batna 2. How can I help you?",
+    ar: "👋 مرحبًا! أهلاً بكم في قسم الإعلام الآلي - جامعة باتنة 2. كيف يمكنني مساعدتكم؟",
   },
   salut: {
     fr: "👋 Salut ! Bienvenue au Département Informatique.",
@@ -137,29 +137,30 @@ serve(async (req) => {
     const { question } = await req.json();
     const lang: Lang = detectLanguage(question || "");
 
-    // 1. Try keyword match first
+    // Try keyword match first
     const key = matchKeyword(question || "");
     if (key && reponses[key]) {
-      return new Response(JSON.stringify({ reponse: reponses[key][lang], langue: lang, source: "keyword" }), {
+      return new Response(JSON.stringify({ reponse: reponses[key][lang], langue: lang }), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
 
-    // 2. AI fallback
+    // Extended response
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     if (!LOVABLE_API_KEY) {
-      return new Response(JSON.stringify({ reponse: reponses.default[lang], langue: lang, source: "default" }), {
+      return new Response(JSON.stringify({ reponse: reponses.default[lang], langue: lang }), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
 
-    const systemPrompt = `You are the official virtual assistant of the Computer Science Department at University of Batna 2, Algeria.
+    const systemPrompt = `You are the assistant of the Computer Science Department at University of Batna 2, Algeria.
 You MUST respond in the SAME LANGUAGE the user writes in. Detect the language automatically.
-You are an expert in computer science, education, university admissions, academic research, programming, algorithms, artificial intelligence, cybersecurity, networks, databases, and all IT-related topics.
-You can answer ANY question intelligently - whether it's about the department, computer science concepts, programming help, math, science, general knowledge, or any other topic.
+You are knowledgeable about computer science, education, university admissions, academic research, programming, algorithms, artificial intelligence, cybersecurity, networks, databases, and all IT-related topics.
+You can answer any question - whether it's about the department, computer science concepts, programming help, math, science, general knowledge, or any other topic.
 Be helpful, accurate, professional, and thorough. Use clear formatting with bullet points and emojis when appropriate.
 For department-specific questions you don't know, suggest contacting the secretariat at +213 33 23 02 66 or email chef-dept.inf@univ-batna2.dz.
-For general knowledge questions, provide the best possible answer based on your training data.
+For general knowledge questions, provide the best possible answer.
+IMPORTANT: Never mention that you are an AI, a chatbot, a language model, or any artificial intelligence. Act as the department's information desk assistant. Never say things like "as an AI" or "I'm an AI assistant".
 
 Here is important department data you should know about:
 
@@ -189,13 +190,13 @@ S2 modules: Cryptography, Cybercrime & Networks (DEKHINET Abdelhamid), Forensics
           en: "⏳ The service is momentarily overloaded. Please try again shortly.",
           ar: "⏳ الخدمة مشغولة حاليًا. يرجى المحاولة مرة أخرى بعد قليل.",
         };
-        return new Response(JSON.stringify({ reponse: fallback[lang] || fallback.fr, langue: lang, source: "error" }), {
+        return new Response(JSON.stringify({ reponse: fallback[lang] || fallback.fr, langue: lang }), {
           status: 200,
           headers: { ...corsHeaders, "Content-Type": "application/json" },
         });
       }
-      console.error("AI gateway error:", aiResponse.status);
-      return new Response(JSON.stringify({ reponse: reponses.default[lang], langue: lang, source: "default" }), {
+      console.error("Gateway error:", aiResponse.status);
+      return new Response(JSON.stringify({ reponse: reponses.default[lang], langue: lang }), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
@@ -203,12 +204,12 @@ S2 modules: Cryptography, Cybercrime & Networks (DEKHINET Abdelhamid), Forensics
     const data = await aiResponse.json();
     const content = data.choices?.[0]?.message?.content || reponses.default[lang];
 
-    return new Response(JSON.stringify({ reponse: content, langue: lang, source: "ai" }), {
+    return new Response(JSON.stringify({ reponse: content, langue: lang }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   } catch (e) {
     console.error("chat error:", e);
-    return new Response(JSON.stringify({ reponse: "Erreur technique. Contact: +213 33 23 02 66", langue: "fr", source: "error" }), {
+    return new Response(JSON.stringify({ reponse: "Erreur technique. Contact: +213 33 23 02 66", langue: "fr" }), {
       status: 500,
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
