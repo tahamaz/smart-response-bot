@@ -145,10 +145,10 @@ serve(async (req) => {
       });
     }
 
-    // 2. AI fallback
+    // Extended response
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     if (!LOVABLE_API_KEY) {
-      return new Response(JSON.stringify({ reponse: reponses.default[lang], langue: lang, source: "default" }), {
+      return new Response(JSON.stringify({ reponse: reponses.default[lang], langue: lang }), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
