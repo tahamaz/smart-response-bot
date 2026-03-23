@@ -195,8 +195,8 @@ S2 modules: Cryptography, Cybercrime & Networks (DEKHINET Abdelhamid), Forensics
           headers: { ...corsHeaders, "Content-Type": "application/json" },
         });
       }
-      console.error("AI gateway error:", aiResponse.status);
-      return new Response(JSON.stringify({ reponse: reponses.default[lang], langue: lang, source: "default" }), {
+      console.error("Gateway error:", aiResponse.status);
+      return new Response(JSON.stringify({ reponse: reponses.default[lang], langue: lang }), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
