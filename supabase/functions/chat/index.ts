@@ -209,7 +209,7 @@ S2 modules: Cryptography, Cybercrime & Networks (DEKHINET Abdelhamid), Forensics
     });
   } catch (e) {
     console.error("chat error:", e);
-    return new Response(JSON.stringify({ reponse: "Erreur technique. Contact: +213 33 23 02 66", langue: "fr", source: "error" }), {
+    return new Response(JSON.stringify({ reponse: "Erreur technique. Contact: +213 33 23 02 66", langue: "fr" }), {
       status: 500,
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
