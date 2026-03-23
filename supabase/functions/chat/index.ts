@@ -204,7 +204,7 @@ S2 modules: Cryptography, Cybercrime & Networks (DEKHINET Abdelhamid), Forensics
     const data = await aiResponse.json();
     const content = data.choices?.[0]?.message?.content || reponses.default[lang];
 
-    return new Response(JSON.stringify({ reponse: content, langue: lang, source: "ai" }), {
+    return new Response(JSON.stringify({ reponse: content, langue: lang }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   } catch (e) {
