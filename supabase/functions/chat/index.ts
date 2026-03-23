@@ -18,9 +18,9 @@ function detectLanguage(text: string): Lang {
 
 const reponses: Record<string, Record<string, string>> = {
   bonjour: {
-    fr: "👋 Bonjour ! Je suis le chatbot officiel du Département d'Informatique - Université Batna 2. Comment puis-je vous aider ?",
-    en: "👋 Hello! I am the official chatbot of the Computer Science Department - University of Batna 2. How can I help you?",
-    ar: "👋 مرحبًا! أنا المساعد الرسمي لقسم الإعلام الآلي - جامعة باتنة 2. كيف يمكنني مساعدتك؟",
+    fr: "👋 Bonjour ! Bienvenue au Département d'Informatique - Université Batna 2. Comment puis-je vous aider ?",
+    en: "👋 Hello! Welcome to the Computer Science Department - University of Batna 2. How can I help you?",
+    ar: "👋 مرحبًا! أهلاً بكم في قسم الإعلام الآلي - جامعة باتنة 2. كيف يمكنني مساعدتكم؟",
   },
   salut: {
     fr: "👋 Salut ! Bienvenue au Département Informatique.",

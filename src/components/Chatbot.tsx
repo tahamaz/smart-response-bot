@@ -46,7 +46,7 @@ function formatText(text: string) {
 
 export default function Chatbot() {
   const [messages, setMessages] = useState<Message[]>([
-    { text: "👋 Hello! I am the virtual assistant of the Computer Science Department - University of Batna 2. How can I help you?", isUser: false, time: getTime() },
+    { text: "👋 Hello! Welcome to the Computer Science Department - University of Batna 2. How can I help you?", isUser: false, time: getTime() },
   ]);
   const [input, setInput] = useState("");
   const [isTyping, setIsTyping] = useState(false);
