@@ -137,10 +137,10 @@ serve(async (req) => {
     const { question } = await req.json();
     const lang: Lang = detectLanguage(question || "");
 
-    // 1. Try keyword match first
+    // Try keyword match first
     const key = matchKeyword(question || "");
     if (key && reponses[key]) {
-      return new Response(JSON.stringify({ reponse: reponses[key][lang], langue: lang, source: "keyword" }), {
+      return new Response(JSON.stringify({ reponse: reponses[key][lang], langue: lang }), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
